@@ -18,25 +18,66 @@
   <ul>
 
   </ul>
+  <button id='SortAlpha'>Sort Alphabetically!</button>
+  <button id='SortRating'>Sort By Rating!</button>
   
   <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
   <script>
+
+    const movies = [];
+
     // Form Submit handler adds li with name, rating, and remove button
     $('form').on('submit', function handleSubmit(evt) {
       evt.preventDefault();
       // separate variables
       let movieName = $('#title').val();
       let movieRating = $('#rating').val();
+
+      movies.push([movieName, movieRating]);
+      
+      addListItem(movieName, movieRating);
+      
+      $('form').trigger('reset');
+    });
+
+    function addListItem (movieName, movieRating) {
       let $newLi = $(`<li>Movie Name: ${movieName}<br>Movie Rating: ${movieRating}<br></li>`);
       let $removeButton = $('<button class="remove">Remove</button>');
       $newLi.append($removeButton);
       $('ul').append($newLi);
-      $('form').trigger('reset');
-    });
+    }
+
+
+
     // remove button handler removes parent li
     $('ul').on('click', '.remove', function handleRemove(evt) {
       $(evt.target).parent().remove();
+      
     });
+    
+    // Allow user to sort alphabetically
+    $('#SortAlpha').on('click', function sortAlpha() {
+      movies.sort();
+      console.log('sortedMovies', movies);
+      $('ul').empty();
+      for (let elem of movies) {
+        addListItem(elem[0], elem[1]);
+      }
+    });
+
+    // Allow user to sort alphabetically
+    $('#SortRating').on('click', function sortRating() {
+      movies.sort( function(a,b) {
+        return a[1] - b[1];
+      });
+      console.log('sortedMovies', movies);
+      $('ul').empty();
+      for (let elem of movies) {
+        addListItem(elem[0], elem[1]);
+      }
+    });
+
+
 
   </script>
 </body>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form>
+    <h1>Rate Your Movie!</h1>
+    <label for="title">Movie Title</label>
+    <input id='title'>
+    <br>
+    <label for="rating">Rating 0-10</label>
+    <input id="rating" type="number" min="0" max="10">
+    <button type="submit">Submit Rating!</button>
+  </form>
+  <ul>
+
+  </ul>
+  
+  <script src="http://code.jquery.com/jquery-3.5.1.js"></script>
+  <script>
+    // Form Submit handler adds li with name, rating, and remove button
+    $('form').on('submit', function handleSubmit(evt) {
+      evt.preventDefault();
+      // separate variables
+      let movieName = $('#title').val();
+      let movieRating = $('#rating').val();
+      let $newLi = $(`<li>Movie Name: ${movieName}<br>Movie Rating: ${movieRating}<br></li>`);
+      let $removeButton = $('<button class="remove">Remove</button>');
+      $newLi.append($removeButton);
+      $('ul').append($newLi);
+      $('form').trigger('reset');
+    });
+    // remove button handler removes parent li
+    $('ul').on('click', '.remove', function handleRemove(evt) {
+      $(evt.target).parent().remove();
+    });
+
+  </script>
+</body>
+</html>
